@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ammar Karpet - Spesialis Karpet Masjid Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Playfair+Display:wght@600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Ammar<span>Karpet</span></div>
+            <div class="nav-links">
+                <a href="#hero">Beranda</a>
+                <a href="#gallery">Koleksi</a>
+                <a href="#produk">Produk</a>
+            </div>
+            <a href="https://wa.me/6281317067058" class="nav-wa" target="_blank">Pesan Sekarang</a>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="container hero-wrapper">
+            <div class="hero-content">
+                <p class="subtitle">SPESIALIS KARPET MASJID</p>
+                <h1>Karpet Berkualitas untuk Rumah Allah</h1>
+                <p class="description">
+                    Hadirkan kenyamanan dan keindahan di setiap sujud. Kami menyediakan karpet masjid premium dengan motif islami, bahan terbaik, dan daya tahan jangka panjang.
+                </p>
+                <div class="cta-area">
+                    <a href="#produk" class="btn-primary">Lihat Produk</a>
+                </div>
+                <div class="pill-container">
+                    <span class="pill">✓ Anti Slip</span>
+                    <span class="pill">✓ Bahan Berkualitas</span>
+                    <span class="pill">✓ Bahan Premium</span>
+                    <span class="pill">✓ Pengiriman Cepat</span>
+                </div>
+                <div class="stats">
+                    <div class="divider-long"></div>
+                    <span class="stat-text">DIJAMIN BERKAH</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="sec-header">
+                <p class="sec-eyebrow">GALERI KOLEKSI</p>
+                <h2 class="h2-serif">Keindahan di Setiap Helai Benang</h2>
+            </div>
+            <!-- Galeri diisi otomatis dari images.json -->
+            <div class="gallery-grid" id="gallery-grid">
+                <div class="gi fade-in"><img id="img1" src="" alt=""></div>
+                <div class="gi fade-in d1"><img id="img2" src="" alt=""></div>
+                <div class="gi fade-in d2"><img id="img3" src="" alt=""></div>
+                <div class="gi fade-in d3"><img id="img4" src="" alt=""></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="produk" class="catalog-section">
+        <div class="container">
+            <h2 class="h2-serif center-text">Pilihan Karpet Terbaik Kami</h2>
+            <!-- Produk diisi otomatis dari images.json -->
+            <div class="product-grid" id="product-grid"></div>
+
+            <div class="cta-banner fade-in">
+                <div class="cta-content">
+                    <h3>Butuh Konsultasi atau Penawaran Khusus?</h3>
+                    <p>Tim kami siap bantu pilihkan karpet terbaik sesuai ukuran dan anggaran masjid Anda</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="https://wa.me/6281317067058" class="btn-whatsapp" target="_blank">Chat WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-wrapper">
+            <div class="footer-logo">Ammar<span>Karpet</span></div>
+            <p class="footer-copyright">© 2026 Ammar Karpet — Spesialis Karpet Masjid Berkualitas</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  LOAD GAMBAR DARI images.json
+        //  Non-developer cukup edit file images.json saja,
+        //  tidak perlu menyentuh file HTML ini sama sekali.
+        // ============================================================
+        fetch('images.json')
+            .then(res => res.json())
+            .then(data => {
+
+                // --- ISI GALERI ---
+                data.galeri.forEach(item => {
+                    const el = document.getElementById(item.id);
+                    if (el) {
+                        el.src = item.src;
+                        el.alt = item.alt;
+                    }
+                });
+
+                // --- ISI PRODUK (dibuat dinamis) ---
+                const grid = document.getElementById('product-grid');
+                data.produk.forEach((item, index) => {
+                    const delay = index > 0 ? ` d${index}` : '';
+                    grid.innerHTML += `
+                        <div class="product-card fade-in${delay}">
+                            <div class="image-wrapper">
+                                <img id="${item.id}" src="${item.src}" alt="${item.alt}">
+                            </div>
+                            <div class="product-info">
+                                <h3>${item.nama}</h3>
+                                <p class="price">${item.harga}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Jalankan ulang observer setelah produk ditambahkan
+                document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            })
+            .catch(err => {
+                console.error('Gagal memuat images.json:', err);
+            });
+
+        // --- ANIMASI FADE-IN ---
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
