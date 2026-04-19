@@ -1,4 +1,13 @@
-## Hi there 👋
+README.TXT
+
+Kalo mau ganti gambar karpet
+ke assets/
+tinggal timpa gambar dengan nama yang sama, yaitu
+karpet1.png dan karpet2.png
+
+atau
+
+lewat images.json
 
 <!--
 **ammarkarpet/ammarkarpet** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
